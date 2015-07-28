@@ -28,9 +28,9 @@ trait UsersRouter {
       }
     }
 
-    case POST(p"/users/${long(id)}") => Action.async(parse.json[User]) { implicit request =>
+    case POST(p"/users") => Action.async(parse.json[User]) { implicit request =>
       val user = request.body
-      save(user) map (_ => Ok)
+      save(user) map (_ => Created)
     }
 
   }
