@@ -52,7 +52,7 @@ object UsersRouter {
 
 Since the type [Router.Routes](https://www.playframework.com/documentation/tr/2.4.x/api/scala/index.html#play.api.routing.Router$@Routes=PartialFunction[play.api.mvc.RequestHeader,play.api.mvc.Handler]) is a PartialFunction[RequestHeader, Handler], we can define the cases in our apply() method.
 
-After all, we are able to combine our Routes in a defined Route as the code below:
+After all, we are able to combine our Routes in a defined Router as shown in the code below:
 
 ```scala
 def router: Router = Router.from {
@@ -70,6 +70,8 @@ def router: Router = Router.from {
   routers reduceLeft (_ orElse _)
 }
 ```
+
+You can find more information about the new Routing system in the [Official Documentation](https://www.playframework.com/documentation/2.4.x/ScalaSirdRouter).
 
 That's enough to start a Light REST API from the scratch thinking seriously in clean coding.
 
