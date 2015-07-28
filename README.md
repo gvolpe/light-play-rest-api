@@ -20,7 +20,7 @@ class Boot extends ApplicationLoader {
 
 }
 ```
-To indicate that we want to use this custom loader, we have to specify it in the application.conf file.
+To indicate that we want to use this custom loader, we have to specify it in the **application.conf** file.
 
 ```
 play.application.loader = Boot
@@ -29,22 +29,26 @@ play.application.loader = Boot
 After that we have to create the customized routers. This project has 3 sample routers for Users, Products and Orders. This is how it looks:
 
 ```scala
-object UsersRouter {
+object UsersRouter extends DefaultUsersRepository with UsersRouter {
+  def apply(): Router.Routes = routes
+}
 
-  def dao: UsersRepository = new DefaultUsersRepository()
+trait UsersRouter {
 
-  def apply(): Router.Routes = {
+  self: UsersRepository =>
+
+  def routes: Router.Routes = {
 
     case GET(p"/users/${long(id)}") => Action.async {
-      dao.find(id) map {
+      find(id) map {
         case Some(user) => Ok(Json.toJson(user))
         case None => NotFound
       }
     }
 
-    case POST(p"/users/${long(id)}") => Action.async(parse.json[User]) { implicit request =>
+    case POST(p"/users") => Action.async(parse.json[User]) { implicit request =>
       val user = request.body
-      dao.save(user) map (_ => Ok)
+      save(user) map (_ => Created)
     }
 
   }
@@ -52,7 +56,9 @@ object UsersRouter {
 }
 ```
 
-Since the type [Router.Routes](https://www.playframework.com/documentation/tr/2.4.x/api/scala/index.html#play.api.routing.Router$@Routes=PartialFunction[play.api.mvc.RequestHeader,play.api.mvc.Handler]) is a PartialFunction[RequestHeader, Handler], we can define the cases in our apply() method.
+Since the type [Router.Routes](https://www.playframework.com/documentation/tr/2.4.x/api/scala/index.html#play.api.routing.Router$@Routes=PartialFunction[play.api.mvc.RequestHeader,play.api.mvc.Handler]) is a **PartialFunction[RequestHeader, Handler]**, we can define the cases in our apply() method.
+
+### Putting the pieces together
 
 After all, we are able to combine our Routes in a defined Router as shown in the code below:
 
@@ -64,7 +70,7 @@ def router: Router = Router.from {
 }
 ```
 
-There are different ways to combine PartialFunctions to get only one. We can define the Router by reducing a List of PartialFunctions:
+There are different ways to combine PartialFunctions to get only one. We choose the first one but We can, for instance, define the Router by reducing a List of PartialFunctions:
 
 ```scala
 def router: Router = Router.from {
@@ -75,11 +81,11 @@ def router: Router = Router.from {
 
 You can find more information about the new Routing system in the [Official Documentation](https://www.playframework.com/documentation/2.4.x/ScalaSirdRouter).
 
-That's enough to start a Light REST API from the scratch thinking seriously in clean coding.
+That's enough to start a Light REST API from the scratch ***thinking seriously in clean coding***.
 
 ## Testing
 
-We choose Specs2 to test Play's applications. As it's explained in the documentation, we are able to [test the Routers](https://www.playframework.com/documentation/2.4.x/ScalaFunctionalTestingWithSpecs2#Testing-the-router) instead of call directly to an Action.
+We choose **Specs2** to test Play's applications. As it's explained in the documentation, we are able to [test the Routers](https://www.playframework.com/documentation/2.4.x/ScalaFunctionalTestingWithSpecs2#Testing-the-router) instead of call directly to an Action.
 
 So we start creating a Specification for the UserRouterSpec as shown below:
 
