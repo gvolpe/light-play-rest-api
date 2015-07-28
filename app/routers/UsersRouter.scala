@@ -11,14 +11,18 @@ import play.api.routing.Router
 import play.api.routing.sird._
 import repository.{DefaultUsersRepository, UsersRepository}
 
-object UsersRouter {
+object UsersRouter extends DefaultUsersRepository with UsersRouter {
+  def apply(): Router.Routes = routes
+}
 
-  def dao: UsersRepository = new DefaultUsersRepository()
+trait UsersRouter {
 
-  def apply(): Router.Routes = {
+  self: UsersRepository =>
+
+  def routes: Router.Routes = {
 
     case GET(p"/users/${long(id)}") => Action.async {
-      dao.find(id) map {
+      find(id) map {
         case Some(user) => Ok(Json.toJson(user))
         case None => NotFound
       }
@@ -26,9 +30,10 @@ object UsersRouter {
 
     case POST(p"/users/${long(id)}") => Action.async(parse.json[User]) { implicit request =>
       val user = request.body
-      dao.save(user) map (_ => Ok)
+      save(user) map (_ => Ok)
     }
 
   }
 
 }
+

@@ -7,9 +7,13 @@ import play.api.routing.Router
 import play.api.routing.sird._
 import scala.concurrent.Future
 
-object OrdersRouter {
+object OrdersRouter extends OrdersRouter {
+  def apply() : Router.Routes = routes
+}
 
-  def apply() : Router.Routes = {
+trait OrdersRouter {
+
+  def routes : Router.Routes = {
 
     case GET(p"/users/$id/orders") => Action.async {
       Future(Ok(s"Orders of the user with id: $id"))

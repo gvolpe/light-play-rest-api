@@ -3,12 +3,17 @@ package routers
 import models.Model.User
 import play.api.routing.Router
 import play.api.test._
+import repository.DefaultUsersRepository
 
 class UsersRouterSpec extends PlaySpecification {
 
+  object FakeUsersRouter extends DefaultUsersRepository with UsersRouter {
+    def apply(): Router.Routes = routes
+  }
+
   "Users Router" should {
 
-    val users = UsersRouter()
+    val users = FakeUsersRouter()
 
     "Have a specific handler to GET a User by id" in new WithApplication() {
       val router = Router.from(users)
