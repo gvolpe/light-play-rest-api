@@ -1,6 +1,8 @@
 light-play-rest-api
 ===================
 
+[ ![Codeship Status for gvolpe/light-play-rest-api](https://codeship.com/projects/d01bfc40-1767-0133-8ea3-06c83ac03245/status?branch=master)](https://codeship.com/projects/93580)
+
 This project aims to be the reference to create a Light Weight REST API using [Play Framework 2.4.x](https://www.playframework.com/).
 
 ## About
