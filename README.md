@@ -77,7 +77,53 @@ That's enough to start a Light REST API from the scratch thinking seriously in c
 
 ## Testing
 
----- TODO ----
+We choose Specs2 to test Play's applications. As it's explained in the documentation, we are able to [test the Routers](https://www.playframework.com/documentation/2.4.x/ScalaFunctionalTestingWithSpecs2#Testing-the-router) instead of call directly to an Action.
+
+So we start creating a Specification for the UserRouterSpec as shown below:
+
+```scala
+class UsersRouterSpec extends PlaySpecification {
+   ......
+}
+```
+
+Then we create a FakeUsersRouter to replace the Real Users Repository for an InMemoryRepository (Default).
+
+```scala
+object FakeUsersRouter extends DefaultUsersRepository with UsersRouter {
+  def apply(): Router.Routes = routes
+}
+```
+
+Finally we create a fakeApplicationLoader to start testing the Routers.
+
+```scala
+val fakeRouter = Router.from(FakeUsersRouter())
+  
+val fakeAppLoader = new ApplicationLoader() {
+  def load(context: Context): Application = new BuiltInComponentsFromContext(context) {
+    def router = fakeRouter
+  }.application
+}
+```
+
+Now we are able to write our tests, using our Fake Application Loader.
+
+```scala
+"Users Router" should {
+
+  "Not find the user" in new WithApplicationLoader(fakeAppLoader) {
+    val fakeRequest = FakeRequest(GET, "/users/123")
+    val Some(result) = route(fakeRequest)
+
+    status(result) must equalTo(NOT_FOUND)
+  }
+
+  ... More cases ...
+}
+```
+
+To learn more see the [completed test specification](https://github.com/gvolpe/light-play-rest-api/blob/master/test/routers/UsersRouterSpec.scala).
 
 ## License
 
