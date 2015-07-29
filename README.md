@@ -3,6 +3,7 @@ light-play-rest-api
 
 [ ![Codeship Status for gvolpe/light-play-rest-api](https://codeship.com/projects/d01bfc40-1767-0133-8ea3-06c83ac03245/status?branch=master)](https://codeship.com/projects/93580)
 [![Coverage Status](https://coveralls.io/repos/gvolpe/light-play-rest-api/badge.svg?branch=5d6b8dc3f59139fd116943141fff1bb627036128&service=github)](https://coveralls.io/github/gvolpe/light-play-rest-api?branch=5d6b8dc3f59139fd116943141fff1bb627036128)
+[![Codacy Badge](https://www.codacy.com/project/badge/2a966c471ffd466ca91bd175d292c9d9)](https://www.codacy.com/app/volpegabriel/light-play-rest-api)
 
 This project aims to be the reference to create a Light Weight REST API using [Play Framework 2.4.x](https://www.playframework.com/).
 
@@ -71,7 +72,7 @@ def router: Router = Router.from {
 }
 ```
 
-There are different ways to combine PartialFunctions to get only one. We choose the first one but We can, for instance, define the Router by reducing a List of PartialFunctions, as we do in the [BaseRouterSpecification](https://github.com/gvolpe/light-play-rest-api/blob/master/test/routers/BaseRouterSpecification.scala) class:
+There are different ways to combine PartialFunctions to get only one. We choose the first one but we can, for instance, define the Router by reducing a List of PartialFunctions, as we do in the [BaseRouterSpecification](https://github.com/gvolpe/light-play-rest-api/blob/master/test/routers/BaseRouterSpecification.scala) class:
 ```scala
 def router: Router = Router.from {
   val routers = List(UsersRouter(), ProductsRouter(), OrdersRouter())
