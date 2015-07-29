@@ -16,7 +16,7 @@ trait ProductsRouter {
   def routes : Router.Routes = {
 
     case GET(p"/products/$id") => Action.async {
-      Future(Ok(s"Product with id: $id"))
+      Future(Ok(s"Product ID: $id"))
     }
 
   }
