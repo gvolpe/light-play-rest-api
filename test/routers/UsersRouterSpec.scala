@@ -2,26 +2,13 @@ package routers
 
 import models.Model.Implicits._
 import models.Model.User
-import play.api.{BuiltInComponentsFromContext, Application, ApplicationLoader}
-import play.api.ApplicationLoader.Context
 import play.api.libs.json._
 import play.api.routing.Router
 import play.api.test._
-import repository.DefaultUsersRepository
 
-class UsersRouterSpec extends PlaySpecification {
-
-  object FakeUsersRouter extends DefaultUsersRepository with UsersRouter {
-    def apply(): Router.Routes = routes
-  }
+class UsersRouterSpec extends BaseRouterSpecification {
 
   val fakeRouter = Router.from(FakeUsersRouter())
-  
-  val fakeAppLoader = new ApplicationLoader() {
-    def load(context: Context): Application = new BuiltInComponentsFromContext(context) {
-      def router = fakeRouter
-    }.application
-  }
 
   "Users Router" should {
 

@@ -56,7 +56,7 @@ trait UsersRouter {
 }
 ```
 
-Since the type [Router.Routes](https://www.playframework.com/documentation/tr/2.4.x/api/scala/index.html#play.api.routing.Router$@Routes=PartialFunction[play.api.mvc.RequestHeader,play.api.mvc.Handler]) is a **PartialFunction[RequestHeader, Handler]**, we can define the cases in our apply() method.
+Since the type [Router.Routes](https://www.playframework.com/documentation/tr/2.4.x/api/scala/index.html#play.api.routing.Router$@Routes=PartialFunction[play.api.mvc.RequestHeader,play.api.mvc.Handler]) is a **PartialFunction[RequestHeader, Handler]**, we can define the cases in our 'routes' method. We created a companion object with an apply() method to meake things easier.
 
 ### Putting the pieces together
 
@@ -70,8 +70,7 @@ def router: Router = Router.from {
 }
 ```
 
-There are different ways to combine PartialFunctions to get only one. We choose the first one but We can, for instance, define the Router by reducing a List of PartialFunctions:
-
+There are different ways to combine PartialFunctions to get only one. We choose the first one but We can, for instance, define the Router by reducing a List of PartialFunctions, as we do in the [BaseRouterSpecification](https://github.com/gvolpe/light-play-rest-api/blob/master/test/routers/BaseRouterSpecification.scala) class:
 ```scala
 def router: Router = Router.from {
   val routers = List(UsersRouter(), ProductsRouter(), OrdersRouter())
@@ -87,7 +86,7 @@ That's enough to start a Light REST API from the scratch ***thinking seriously i
 
 We choose **Specs2** to test Play's applications. As it's explained in the documentation, we are able to [test the Routers](https://www.playframework.com/documentation/2.4.x/ScalaFunctionalTestingWithSpecs2#Testing-the-router) instead of call directly to an Action.
 
-So we start creating a Specification for the UserRouterSpec as shown below:
+So we start creating a Specification for the UsersRouterSpec as shown below:
 
 ```scala
 class UsersRouterSpec extends PlaySpecification {
@@ -95,7 +94,7 @@ class UsersRouterSpec extends PlaySpecification {
 }
 ```
 
-Then we create a FakeUsersRouter to replace the Real Users Repository for an InMemoryRepository (Default).
+Then we create a FakeUsersRouter to replace the Real Users Repository for an InMemoryRepository (Default). In the application we are using the same repository, but that will be changed for a repository accessing a real database.
 
 ```scala
 object FakeUsersRouter extends DefaultUsersRepository with UsersRouter {
