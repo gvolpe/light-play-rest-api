@@ -2,6 +2,7 @@ light-play-rest-api
 ===================
 
 [ ![Codeship Status for gvolpe/light-play-rest-api](https://codeship.com/projects/d01bfc40-1767-0133-8ea3-06c83ac03245/status?branch=master)](https://codeship.com/projects/93580)
+[![Coverage Status](https://coveralls.io/repos/gvolpe/light-play-rest-api/badge.svg)](https://coveralls.io/r/gvolpe/light-play-rest-api)
 
 This project aims to be the reference to create a Light Weight REST API using [Play Framework 2.4.x](https://www.playframework.com/).
 
@@ -56,7 +57,7 @@ trait UsersRouter {
 }
 ```
 
-Since the type [Router.Routes](https://www.playframework.com/documentation/tr/2.4.x/api/scala/index.html#play.api.routing.Router$@Routes=PartialFunction[play.api.mvc.RequestHeader,play.api.mvc.Handler]) is a **PartialFunction[RequestHeader, Handler]**, we can define the cases in our 'routes' method. We created a companion object with an apply() method to meake things easier.
+Since the type [Router.Routes](https://www.playframework.com/documentation/tr/2.4.x/api/scala/index.html#play.api.routing.Router$@Routes=PartialFunction[play.api.mvc.RequestHeader,play.api.mvc.Handler]) is a **PartialFunction[RequestHeader, Handler]**, we can define the cases in our 'routes' method. We created a companion object with an apply() method to make things easier.
 
 ### Putting the pieces together
 
