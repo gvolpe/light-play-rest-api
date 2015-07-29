@@ -30,6 +30,8 @@ class UsersRouterSpec extends BaseRouterSpecification {
       val Some(result) = route(fakeRequest)
 
       status(result) must equalTo(OK)
+      contentType(result) must beSome("application/json")
+      contentAsJson(result) must equalTo(body)
     }
 
     "Have a specific handler to GET an User by id" in new WithApplication() {
