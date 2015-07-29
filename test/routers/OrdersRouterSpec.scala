@@ -3,22 +3,22 @@ package routers
 import play.api.routing.Router
 import play.api.test._
 
-class ProductsRouterSpec extends BaseRouterSpecification {
+class OrdersRouterSpec extends BaseRouterSpecification {
 
   // In the near future it will be changed by a fake router
-  val fakeRouter = Router.from(ProductsRouter())
+  val fakeRouter = Router.from(OrdersRouter())
 
-  "Products Router" should {
+  "Orders Router" should {
 
-    "Find the product" in new WithApplicationLoader(fakeAppLoader) {
-      val fakeRequest = FakeRequest(GET, "/products/123")
+    "Find the order for the user" in new WithApplicationLoader(fakeAppLoader) {
+      val fakeRequest = FakeRequest(GET, "/users/123/orders")
       val Some(result) = route(fakeRequest)
 
       status(result) must equalTo(OK)
     }
 
     "Have a specific handler to GET a Product by id" in new WithApplication() {
-      val fakeRequest = FakeRequest(GET, "/products/87")
+      val fakeRequest = FakeRequest(GET, "/users/123/orders")
       val handler = fakeRouter.handlerFor(fakeRequest)
 
       handler must be_!=(None)

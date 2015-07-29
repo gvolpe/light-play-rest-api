@@ -15,7 +15,7 @@ abstract class BaseRouterSpecification extends PlaySpecification {
   val fakeAppLoader = new ApplicationLoader() {
     def load(context: Context): Application = new BuiltInComponentsFromContext(context) {
       def router = Router.from {
-        List(FakeUsersRouter(), ProductsRouter()) reduceLeft (_ orElse _)
+        List(FakeUsersRouter(), ProductsRouter(), OrdersRouter()) reduceLeft (_ orElse _)
       }
     }.application
   }
