@@ -15,6 +15,12 @@ trait ProductsRouter {
 
   def routes : Router.Routes = {
 
+    // Using optional parameters
+    case GET(p"/products") => Action.async { implicit request =>
+      val order = request.getQueryString("order").getOrElse("asc")
+      Future(Ok(s"List of Products with optional parameter order=$order"))
+    }
+
     case GET(p"/products/$id") => Action.async {
       Future(Ok(s"Product ID: $id"))
     }
